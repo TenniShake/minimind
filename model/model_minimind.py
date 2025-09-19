@@ -243,7 +243,7 @@ class MoEGate(nn.Module):
             scores = logits.softmax(dim=-1)
         else:
             raise NotImplementedError(f'insupportable scoring function for MoE gating: {self.scoring_func}')
-
+        # 对logits的最后一维，进行top-k操作，得到top-k的权重和索引
         topk_weight, topk_idx = torch.topk(scores, k=self.top_k, dim=-1, sorted=False)
 
         if self.top_k > 1 and self.norm_topk_prob:
